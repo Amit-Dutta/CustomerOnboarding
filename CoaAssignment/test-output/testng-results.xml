@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="12558" started-at="2018-06-03T19:42:19Z" finished-at="2018-06-03T19:42:32Z">
+  <suite name="Default suite" duration-ms="13207" started-at="2018-06-03T21:21:31Z" finished-at="2018-06-03T21:21:44Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="12558" started-at="2018-06-03T19:42:19Z" finished-at="2018-06-03T19:42:32Z">
+    <test name="Default test" duration-ms="13207" started-at="2018-06-03T21:21:31Z" finished-at="2018-06-03T21:21:44Z">
       <class name="COA_Assignment.org.coa.assignment.GetExcel">
-        <test-method status="PASS" signature="getCustomerInfo()[pri:0, instance:COA_Assignment.org.coa.assignment.GetExcel@18be83e4]" name="getCustomerInfo" duration-ms="12418" started-at="2018-06-03T19:42:19Z" finished-at="2018-06-03T19:42:32Z">
+        <test-method status="PASS" signature="getCustomerInfo()[pri:1, instance:COA_Assignment.org.coa.assignment.GetExcel@4c70fda8]" name="getCustomerInfo" duration-ms="11018" started-at="2018-06-03T21:21:31Z" finished-at="2018-06-03T21:21:42Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- getCustomerInfo -->
+        <test-method status="PASS" signature="parseExcel()[pri:2, instance:COA_Assignment.org.coa.assignment.GetExcel@4c70fda8]" name="parseExcel" duration-ms="2074" started-at="2018-06-03T21:21:42Z" finished-at="2018-06-03T21:21:44Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- parseExcel -->
       </class> <!-- COA_Assignment.org.coa.assignment.GetExcel -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->

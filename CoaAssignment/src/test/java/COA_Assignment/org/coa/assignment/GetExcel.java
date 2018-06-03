@@ -48,37 +48,31 @@ public void getCustomerInfo() {
 	{
 			String excelFilePath = excellocation;
 			FileInputStream inputstream = new FileInputStream(new File(excelFilePath));
-			Workbook workbook = new XSSFWorkbook(inputstream);
-			Sheet custinfo=workbook.getSheet("CustomerInfo");
+			Workbook infoworkbook = new XSSFWorkbook(inputstream);
+			Sheet custinfo=infoworkbook.getSheet("CustomerInfo");
 			Iterator<Row> iterator=custinfo.iterator();
-			
+			int rowcount=1;
+			int custid=1;
 			while (iterator.hasNext())
 			{
+				customerinfo="";
 				Row nextRow = iterator.next();
-				customerinfo="Value: ";
-		        Iterator<Cell> cellIterator = nextRow.cellIterator();
-		 	        while (cellIterator.hasNext()) 
-		 	{
-		 	        	Cell cell=cellIterator.next();
-		 	        	
-		 	        	switch (cell.getCellType()) 
-		 	        	{
-	                    case Cell.CELL_TYPE_STRING:
-	                    customerinfo= customerinfo+cell.getStringCellValue();
-	                    break;
-	                    case Cell.CELL_TYPE_BOOLEAN:
-	                    	customerinfo= customerinfo+String.valueOf(cell.getStringCellValue());
-	                        break;
-	                    case Cell.CELL_TYPE_NUMERIC:
-	                    	customerinfo= customerinfo + String.valueOf(cell.getNumericCellValue());
-	                        break;
-	                }
-			}
+				if (rowcount==1)
+				{
+					nextRow = iterator.next();
+					rowcount=rowcount+1;
+				}
+				else
+				{
+				custid=(int) custinfo.getRow(rowcount).getCell(0).getNumericCellValue();
+				customerinfo="\"id\": \"";
+				customerinfo= customerinfo+String.valueOf(Math.round(custid))+"\"";
+				customerinfo=customerinfo+", "+"\"FirstName\": \""+custinfo.getRow(rowcount).getCell(1).getStringCellValue()+"\"";
+				customerinfo=customerinfo+", "+"\"LastName\": \""+custinfo.getRow(rowcount).getCell(2).getStringCellValue()+"\"";
+				rowcount=rowcount+1;
+				}
 		 	        System.out.println(customerinfo);
 			}
 			
-			
 	}
-
-	
 }
