@@ -25,7 +25,7 @@ public class GetExcel {
 	public String excellocation;
 	public String customerinfo;
 
-	@Test
+	@Test (priority=1)
 public void getCustomerInfo() {
 		
 		Scanner scan = new Scanner (System.in);
@@ -43,4 +43,42 @@ public void getCustomerInfo() {
 		System.out.println("Excel location: "+excellocation);
 }
 
+	@Test (priority=2)
+	public void parseExcel() throws IOException 
+	{
+			String excelFilePath = excellocation;
+			FileInputStream inputstream = new FileInputStream(new File(excelFilePath));
+			Workbook workbook = new XSSFWorkbook(inputstream);
+			Sheet custinfo=workbook.getSheet("CustomerInfo");
+			Iterator<Row> iterator=custinfo.iterator();
+			
+			while (iterator.hasNext())
+			{
+				Row nextRow = iterator.next();
+				customerinfo="Value: ";
+		        Iterator<Cell> cellIterator = nextRow.cellIterator();
+		 	        while (cellIterator.hasNext()) 
+		 	{
+		 	        	Cell cell=cellIterator.next();
+		 	        	
+		 	        	switch (cell.getCellType()) 
+		 	        	{
+	                    case Cell.CELL_TYPE_STRING:
+	                    customerinfo= customerinfo+cell.getStringCellValue();
+	                    break;
+	                    case Cell.CELL_TYPE_BOOLEAN:
+	                    	customerinfo= customerinfo+String.valueOf(cell.getStringCellValue());
+	                        break;
+	                    case Cell.CELL_TYPE_NUMERIC:
+	                    	customerinfo= customerinfo + String.valueOf(cell.getNumericCellValue());
+	                        break;
+	                }
+			}
+		 	        System.out.println(customerinfo);
+			}
+			
+			
+	}
+
+	
 }
