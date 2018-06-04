@@ -51,13 +51,13 @@ public void getCustomerInfo() {
 			Workbook infoworkbook = new XSSFWorkbook(inputstream);
 			Sheet custinfo=infoworkbook.getSheet("CustomerInfo");
 			Iterator<Row> iterator=custinfo.iterator();
-			int rowcount=1;
+			int rowcount=0;
 			int custid=1;
-			while (iterator.hasNext())
+			do
 			{
-				customerinfo="";
+				customerinfo="{";
 				Row nextRow = iterator.next();
-				if (rowcount==1)
+				if (rowcount==0)
 				{
 					nextRow = iterator.next();
 					rowcount=rowcount+1;
@@ -65,14 +65,80 @@ public void getCustomerInfo() {
 				else
 				{
 				custid=(int) custinfo.getRow(rowcount).getCell(0).getNumericCellValue();
-				customerinfo="\"id\": \"";
-				customerinfo= customerinfo+String.valueOf(Math.round(custid))+"\"";
+				customerinfo= customerinfo+"\"id\": \""+String.valueOf(Math.round(custid))+"\"";
 				customerinfo=customerinfo+", "+"\"FirstName\": \""+custinfo.getRow(rowcount).getCell(1).getStringCellValue()+"\"";
 				customerinfo=customerinfo+", "+"\"LastName\": \""+custinfo.getRow(rowcount).getCell(2).getStringCellValue()+"\"";
 				rowcount=rowcount+1;
 				}
-		 	        System.out.println(customerinfo);
-			}
+		 	 //Adding Address Info in JSON
+		 	       Sheet addressinfo=infoworkbook.getSheet("Address");
+					Iterator<Row> iteratoraddress=addressinfo.iterator();
+					int rowcountaddress=0;
+					int addresscount=1;
+					do
+					{
+						
+						Row nextRowaddress = iteratoraddress.next();
+						if (rowcountaddress==0)
+						{
+							nextRowaddress = iteratoraddress.next();
+						//	rowcountaddress=rowcountaddress+1;
+						}
+						else
+						{
+						if (custid==(int) addressinfo.getRow(rowcountaddress).getCell(0).getNumericCellValue())
+						{
+						customerinfo=customerinfo+", \"Address" + addresscount + "\": \"";
+						customerinfo=customerinfo+addressinfo.getRow(rowcountaddress).getCell(1).getStringCellValue()+"\"";
+						addresscount=addresscount+1;
+						}
+						}
+						rowcountaddress=rowcountaddress+1;
+				 	    
+				 	        
+					}while (iteratoraddress.hasNext());
 			
+					//Adding Phone Number
+			 	       Sheet phoneinfo=infoworkbook.getSheet("Phone");
+						Iterator<Row> iteratorphone=phoneinfo.iterator();
+						int rowcountphone=0;
+						int phonecount=1;
+						do
+						{
+							
+							Row nextRowphone = iteratorphone.next();
+							if (rowcountphone==0)
+							{
+								nextRowphone = iteratorphone.next();
+							//	rowcountaddress=rowcountaddress+1;
+							}
+							else
+							{
+							if (custid==(int) phoneinfo.getRow(rowcountphone).getCell(0).getNumericCellValue())
+							{
+							customerinfo=customerinfo+", \"Phone" + phonecount + "\": \"";
+							customerinfo=customerinfo+String.valueOf(Math.round(phoneinfo.getRow(rowcountphone).getCell(1).getNumericCellValue()))+"\"}";
+							phonecount=phonecount+1;
+							}
+							}
+							rowcountphone=rowcountphone+1;
+					 	    
+					 	        
+						}while (iteratorphone.hasNext());
+
+					System.out.println(customerinfo);
+			}while (iterator.hasNext());
+			
+	}
+	
+
+	@Test (priority=3)
+	public void postCustomer() throws IOException 
+	{
+	Response addcustomer=given().
+			body(customerinfo).
+			when().
+			contentType(ContentType.JSON).
+			post("http://localhost:3000/customer");		
 	}
 }
